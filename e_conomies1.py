@@ -4,12 +4,21 @@ import tkinter
 root=Tk()
 ch=StringVar(root)
 
+with open ('my_economies.txt','r+',encoding='utf-8') as fe:
+        bal=fe.read()                                           #reads the balance of the text file and puts it in a float type variable
+        bal=float(bal)
+
 def labels(text):
     l=Label(root,text=text)
     l.pack()
     l.configure(bg='pink')                                   
     return l
 
+E=Entry(root)
+
+B=Button(root,text="Submit")
+
+B.configure(bg="light pink")
 
 
 def ch_commander(ch):
@@ -18,23 +27,32 @@ def ch_commander(ch):
 def btn_commander(sel):
     ch_commander(sel)
 
-def Balance(l):
-    l["text"]="Balance"
+def Balance():
+    B.destroy()
+    E.destroy()
+    B=labels(f"Balance = {bal}")
 
 
 
 def Withdrawal():
-    pass
-
+    
+    B["text"]="Withdraw"
+    E.pack()
+    B.pack()
 
 def Deposition():
-    pass
-
+    B["text"]="Deposit"
+    E.pack()
+    B.pack()
 
 
 def ch_getter(sel):
     if sel=="Balance":
-        Balance(l)
+        Balance()
+    if sel=="Withdraw":
+        Withdrawal()
+    if sel=="Deposit":
+        Deposition()
 
 def init(): #window 
     
@@ -54,10 +72,7 @@ def init(): #window
     popupMenu.configure(bg='pale violet red')
     popupMenu.pack()
     
-    E=Entry(root)
-    E.pack()
-    B=Button(root,text="Submit")
-    B.pack()
+    
 
     
     
