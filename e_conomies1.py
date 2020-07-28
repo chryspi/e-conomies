@@ -1,4 +1,4 @@
-from tkinter import Tk,PhotoImage,Label,StringVar,Entry,Frame,OptionMenu,Button
+from tkinter import Tk,PhotoImage,Label,StringVar,Entry,Frame,OptionMenu,Button,END
 import tkinter
 
 root=Tk()
@@ -20,17 +20,22 @@ B=Button(root,text="Submit")
 
 B.configure(bg="light pink")
 
+C=Label(text=f"Balance = {bal}")
+C.configure(bg="pink")
+
 def apothikefsi():
     quantity=E.get()
+    E.delete(0, END)
     quantity=float(quantity)
     if B["text"]=="Deposit":
         new_bal=quantity+bal
     elif B["text"]=="Withdraw":
         new_bal=bal-quantity
-    
-    with open ('my_economies.txt','r+',encoding='utf-8') as fe:
+        if new_bal<0:new_bal=bal
+    print(f"new_bal={new_bal}")
+    with open ('my_economies.txt','w+',encoding='utf-8') as fe:
         fe.write(str(new_bal))                                          
-        
+    C["text"]=f"Balance = {bal}"
 
 def Withdrawal():
     B["text"]="Withdraw"
@@ -38,6 +43,10 @@ def Withdrawal():
     B.pack()
     B["command"]=apothikefsi
 
+def Zeros():
+    with open ('my_economies.txt','w+',encoding='utf-8') as fe:
+        fe.write("0.0")                                          
+        
 
 def Deposition():
     B["text"]="Deposit"
@@ -47,10 +56,11 @@ def Deposition():
 
 
 def Balance():
-    with open ('my_economies.txt','r+',encoding='utf-8') as fe:
+    with open ('my_economies.txt','r',encoding='utf-8') as fe:
         bal=fe.read()                                           #reads the balance of the text file and puts it in a float type variable
         bal=float(bal)
-    C=labels(f"Balance = {bal}")
+    C["text"]=f"Balance = {bal}"
+    C.pack()
     
 def ch_getter(sel):
     if sel=="Balance":
@@ -59,6 +69,8 @@ def ch_getter(sel):
         Withdrawal()
     if sel=="Deposit":
         Deposition()
+    if sel=="Zero":
+        Zeros()
 
 def init(): #window 
     
@@ -70,7 +82,7 @@ def init(): #window
     l=labels("Please make a choice:")                       #calls the labels function
 
                                                           #creates the choice variable of the dropdown menu
-    choices=["Balance","Deposit","Withdraw"]
+    choices=["Balance","Deposit","Withdraw","Zero"]
     ch.set(choices[0])
                                                           #sets the choice initially to "Balance"
     popupMenu = OptionMenu(root, ch, *choices,command=ch_getter)
