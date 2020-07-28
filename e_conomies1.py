@@ -20,32 +20,38 @@ B=Button(root,text="Submit")
 
 B.configure(bg="light pink")
 
-
-def ch_commander(ch):
-    print(ch)
-     
-def btn_commander(sel):
-    ch_commander(sel)
-
-def Balance():
-    B.destroy()
-    E.destroy()
-    B=labels(f"Balance = {bal}")
-
-
+def apothikefsi():
+    quantity=E.get()
+    quantity=float(quantity)
+    if B["text"]=="Deposit":
+        new_bal=quantity+bal
+    elif B["text"]=="Withdraw":
+        new_bal=bal-quantity
+    
+    with open ('my_economies.txt','r+',encoding='utf-8') as fe:
+        fe.write(str(new_bal))                                          
+        
 
 def Withdrawal():
-    
     B["text"]="Withdraw"
     E.pack()
     B.pack()
+    B["command"]=apothikefsi
+
 
 def Deposition():
     B["text"]="Deposit"
     E.pack()
     B.pack()
+    B["command"]=apothikefsi
 
 
+def Balance():
+    with open ('my_economies.txt','r+',encoding='utf-8') as fe:
+        bal=fe.read()                                           #reads the balance of the text file and puts it in a float type variable
+        bal=float(bal)
+    C=labels(f"Balance = {bal}")
+    
 def ch_getter(sel):
     if sel=="Balance":
         Balance()
