@@ -1,7 +1,8 @@
-from tkinter import Tk,PhotoImage,Label,StringVar,Entry,Frame,OptionMenu
+from tkinter import Tk,PhotoImage,Label,StringVar,Entry,Frame,OptionMenu,Button
 import tkinter
 
 root=Tk()
+ch=StringVar(root)
 
 def labels(text):
     l=Label(root,text=text)
@@ -9,10 +10,31 @@ def labels(text):
     l.configure(bg='pink')                                   
     return l
 
-def btn_crt():
+
+
+def ch_commander(ch):
+    print(ch)
+     
+def btn_commander(sel):
+    ch_commander(sel)
+
+def Balance(l):
+    l["text"]="Balance"
+
+
+
+def Withdrawal():
     pass
 
 
+def Deposition():
+    pass
+
+
+
+def ch_getter(sel):
+    if sel=="Balance":
+        Balance(l)
 
 def init(): #window 
     
@@ -23,12 +45,27 @@ def init(): #window
     
     l=labels("Please make a choice:")                       #calls the labels function
 
-    ch=StringVar(root)                                    #creates the choice variable of the dropdown menu
+                                                          #creates the choice variable of the dropdown menu
     choices=["Balance","Deposit","Withdraw"]
-    ch.set(choices[0])                                  #sets the choice initially to "Balance"
-    popupMenu = OptionMenu(root, ch, *choices)
+    ch.set(choices[0])
+                                                          #sets the choice initially to "Balance"
+    popupMenu = OptionMenu(root, ch, *choices,command=ch_getter)
+    popupMenu.config(width=90, font=('Helvetica', 12))
     popupMenu.configure(bg='pale violet red')
     popupMenu.pack()
+    
+    E=Entry(root)
+    E.pack()
+    B=Button(root,text="Submit")
+    B.pack()
+
+    
+    
+
+    
+    
+
+
     root.mainloop()
     
 
