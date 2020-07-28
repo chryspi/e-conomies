@@ -5,7 +5,7 @@ root=Tk()
 
 def labels(text):
     l=Label(root,text=text)
-    l.pack()                                    #puts the label named "Please make a choice"
+    l.pack()                                  
     return l
 
 def btn_crt():
